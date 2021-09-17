@@ -10,7 +10,7 @@ app.use(express.json())
 app.get('/produto', async (req, resp) => {
     
     try {
-        let r = await db.tb_produto.findAll();
+        let r = await db.tb_produto.findAll({order: [['id_produto', 'desc']]});
         resp.send(r)
     } catch(e) {
         return resp.send({error: e.toString()})
@@ -55,16 +55,16 @@ app.put('/produto/:id', async (req, resp) => {
 
         let r = await db.tb_produto.update(
             {
-                nm_produto: usuParam.produto,
-            ds_categoria: usuParam.categoria,
-            vl_preco_de: usuParam.precode,
-            vl_preco_por: usuParam.precopor,
-            vl_avaliacao: usuParam.avaliacao,
-            ds_produto: usuParam.descricao,
-            qtd_estoque: usuParam.estoque,
-            img_produto: usuParam.imagem,
-            bt_ativo: usuParam.ativo,
-            dt_inclusao: new Date()
+            nm_produto: usuParam.produto,
+                ds_categoria: usuParam.categoria,
+                vl_preco_de: usuParam.precode,
+                vl_preco_por: usuParam.precopor,
+                vl_avaliacao: usuParam.avaliacao,
+                ds_produto: usuParam.descricao,
+                qtd_estoque: usuParam.estoque,
+                img_produto: usuParam.imagem,
+                bt_ativo: usuParam.ativo,
+                dt_inclusao: new Date()
             },
             {
                 where: {id_produto: id}
