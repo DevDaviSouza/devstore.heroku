@@ -23,6 +23,12 @@ app.post('/produto', async (req, resp) => {
         
         let usuParam = req.body;
 
+        let repetido = await db.tb_produto.findOne({ where: { nm_produto: usuParam.produto } })
+        
+        if (repetido != null) {
+            return resp.send({erro: 'produto já existe'})
+        }
+            
         let r = {
             nm_produto: usuParam.produto,
             ds_categoria: usuParam.categoria,
@@ -35,6 +41,8 @@ app.post('/produto', async (req, resp) => {
             bt_ativo: usuParam.ativo,
             dt_inclusao: new Date()
         }
+            
+        
 
         let x = await db.tb_produto.create(r);
 
